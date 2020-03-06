@@ -9,17 +9,17 @@ part of 'chat_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChatStore on _ChatStoreBase, Store {
-  Computed<List<Chat>> _$listOpenChatsComputed;
+  Computed<List<Chat>> _$chatsOpenComputed;
 
   @override
-  List<Chat> get listOpenChats => (_$listOpenChatsComputed ??=
-          Computed<List<Chat>>(() => super.listOpenChats))
-      .value;
-  Computed<List<Chat>> _$listAttendedChatsComputed;
+  List<Chat> get chatsOpen =>
+      (_$chatsOpenComputed ??= Computed<List<Chat>>(() => super.chatsOpen))
+          .value;
+  Computed<List<Chat>> _$chatsAttendedComputed;
 
   @override
-  List<Chat> get listAttendedChats => (_$listAttendedChatsComputed ??=
-          Computed<List<Chat>>(() => super.listAttendedChats))
+  List<Chat> get chatsAttended => (_$chatsAttendedComputed ??=
+          Computed<List<Chat>>(() => super.chatsAttended))
       .value;
 
   final _$openChatsAtom = Atom(name: '_ChatStoreBase.openChats');
@@ -125,7 +125,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     final string =
-        'openChats: ${openChats.toString()},listOpenChats: ${listOpenChats.toString()},listAttendedChats: ${listAttendedChats.toString()}';
+        'openChats: ${openChats.toString()},chatsOpen: ${chatsOpen.toString()},chatsAttended: ${chatsAttended.toString()}';
     return '{$string}';
   }
 }
