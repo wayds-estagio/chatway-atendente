@@ -22,41 +22,82 @@ mixin _$ChatStore on _ChatStoreBase, Store {
           Computed<List<Chat>>(() => super.chatsAttended))
       .value;
 
-  final _$openChatsAtom = Atom(name: '_ChatStoreBase.openChats');
+  final _$_openChatsAtom = Atom(name: '_ChatStoreBase._openChats');
 
   @override
-  ObservableList<Chat> get openChats {
-    _$openChatsAtom.context.enforceReadPolicy(_$openChatsAtom);
-    _$openChatsAtom.reportObserved();
-    return super.openChats;
+  ObservableList<Chat> get _openChats {
+    _$_openChatsAtom.context.enforceReadPolicy(_$_openChatsAtom);
+    _$_openChatsAtom.reportObserved();
+    return super._openChats;
   }
 
   @override
-  set openChats(ObservableList<Chat> value) {
-    _$openChatsAtom.context.conditionallyRunInAction(() {
-      super.openChats = value;
-      _$openChatsAtom.reportChanged();
-    }, _$openChatsAtom, name: '${_$openChatsAtom.name}_set');
+  set _openChats(ObservableList<Chat> value) {
+    _$_openChatsAtom.context.conditionallyRunInAction(() {
+      super._openChats = value;
+      _$_openChatsAtom.reportChanged();
+    }, _$_openChatsAtom, name: '${_$_openChatsAtom.name}_set');
+  }
+
+  final _$_attendedChatsAtom = Atom(name: '_ChatStoreBase._attendedChats');
+
+  @override
+  ObservableList<Chat> get _attendedChats {
+    _$_attendedChatsAtom.context.enforceReadPolicy(_$_attendedChatsAtom);
+    _$_attendedChatsAtom.reportObserved();
+    return super._attendedChats;
+  }
+
+  @override
+  set _attendedChats(ObservableList<Chat> value) {
+    _$_attendedChatsAtom.context.conditionallyRunInAction(() {
+      super._attendedChats = value;
+      _$_attendedChatsAtom.reportChanged();
+    }, _$_attendedChatsAtom, name: '${_$_attendedChatsAtom.name}_set');
+  }
+
+  final _$setOpenChatAsyncAction = AsyncAction('setOpenChat');
+
+  @override
+  Future<dynamic> setOpenChat(List<Chat> value) {
+    return _$setOpenChatAsyncAction.run(() => super.setOpenChat(value));
+  }
+
+  final _$setAttendedChatAsyncAction = AsyncAction('setAttendedChat');
+
+  @override
+  Future<dynamic> setAttendedChat(List<Chat> value) {
+    return _$setAttendedChatAsyncAction.run(() => super.setAttendedChat(value));
   }
 
   final _$_ChatStoreBaseActionController =
       ActionController(name: '_ChatStoreBase');
 
   @override
-  dynamic addOpenChat(Chat value) {
+  dynamic openChatToAttendedChat(Chat value) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
     try {
-      return super.addOpenChat(value);
+      return super.openChatToAttendedChat(value);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic addAttendedChat(Chat value) {
+  dynamic openChatToAttendedChatById(String value) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
     try {
-      return super.addAttendedChat(value);
+      return super.openChatToAttendedChatById(value);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addOpenChat(Chat value) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.addOpenChat(value);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -73,30 +114,80 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
+  dynamic removeOpenChatById(String value) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.removeOpenChatById(value);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Chat getOpenChat(Chat value) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.getOpenChat(value);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Chat getChatOpenById(String value) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.getChatOpenById(value);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addMessageOpen(Message message) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.addMessageOpen(message);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic receiveMessageOpen(List<Object> data) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.receiveMessageOpen(data);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic receiveNewChatOpen(List<Object> data) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.receiveNewChatOpen(data);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addAttendedChat(Chat value) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.addAttendedChat(value);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic removeAttendedChat(Chat value) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
     try {
       return super.removeAttendedChat(value);
-    } finally {
-      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic openChatToAttendedChat(Chat value) {
-    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
-    try {
-      return super.openChatToAttendedChat(value);
-    } finally {
-      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic removeOpenChatId(String value) {
-    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
-    try {
-      return super.removeOpenChatId(value);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -113,10 +204,40 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   }
 
   @override
-  dynamic openChatToAttendedChatId(String value) {
+  Chat getChatAttended(Chat value) {
     final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
     try {
-      return super.openChatToAttendedChatId(value);
+      return super.getChatAttended(value);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Chat getChatAttendedById(String value) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.getChatAttendedById(value);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addMessageAttended(Message message) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.addMessageAttended(message);
+    } finally {
+      _$_ChatStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic receiveMessageAttendance(List<Object> data) {
+    final _$actionInfo = _$_ChatStoreBaseActionController.startAction();
+    try {
+      return super.receiveMessageAttendance(data);
     } finally {
       _$_ChatStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -125,7 +246,7 @@ mixin _$ChatStore on _ChatStoreBase, Store {
   @override
   String toString() {
     final string =
-        'openChats: ${openChats.toString()},chatsOpen: ${chatsOpen.toString()},chatsAttended: ${chatsAttended.toString()}';
+        'chatsOpen: ${chatsOpen.toString()},chatsAttended: ${chatsAttended.toString()}';
     return '{$string}';
   }
 }

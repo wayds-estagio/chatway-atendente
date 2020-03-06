@@ -15,10 +15,47 @@ mixin _$ChatsAttendedController on _ChatsAttendedControllerBase, Store {
   List<Chat> get chatsAttended => (_$chatsAttendedComputed ??=
           Computed<List<Chat>>(() => super.chatsAttended))
       .value;
+  Computed<bool> _$isLoadingComputed;
+
+  @override
+  bool get isLoading =>
+      (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading)).value;
+
+  final _$loadingAtom = Atom(name: '_ChatsAttendedControllerBase.loading');
+
+  @override
+  bool get loading {
+    _$loadingAtom.context.enforceReadPolicy(_$loadingAtom);
+    _$loadingAtom.reportObserved();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.context.conditionallyRunInAction(() {
+      super.loading = value;
+      _$loadingAtom.reportChanged();
+    }, _$loadingAtom, name: '${_$loadingAtom.name}_set');
+  }
+
+  final _$_ChatsAttendedControllerBaseActionController =
+      ActionController(name: '_ChatsAttendedControllerBase');
+
+  @override
+  dynamic setLoading(bool value) {
+    final _$actionInfo =
+        _$_ChatsAttendedControllerBaseActionController.startAction();
+    try {
+      return super.setLoading(value);
+    } finally {
+      _$_ChatsAttendedControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   String toString() {
-    final string = 'chatsAttended: ${chatsAttended.toString()}';
+    final string =
+        'loading: ${loading.toString()},chatsAttended: ${chatsAttended.toString()},isLoading: ${isLoading.toString()}';
     return '{$string}';
   }
 }
