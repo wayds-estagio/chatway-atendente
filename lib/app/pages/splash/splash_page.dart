@@ -31,13 +31,44 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        padding: EdgeInsets.only(top: 100, bottom: 80),
         color: Theme.of(context).primaryColor,
-        child: Center(
-          child: CircularProgressIndicator(
-            backgroundColor: Colors.white,
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: 60.0,
+                  backgroundImage: AssetImage("assets/icon/icon_launcher.png"),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Chat Way",
+                  style: TextStyle(
+                    fontFamily: "Helvetica",
+                    fontSize: 21,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  "Atendente",
+                  style: TextStyle(
+                    fontFamily: "Helvetica",
+                    fontWeight: FontWeight.w300,
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            CircularProgressIndicator(),
+          ],
         ),
       ),
     );

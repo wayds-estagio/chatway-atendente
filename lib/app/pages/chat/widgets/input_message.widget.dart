@@ -81,8 +81,8 @@ class InputTextMessage extends StatelessWidget {
                       ? Icon(Icons.settings_voice)
                       : Icon(Icons.send),
                   onPressed: () {
-                    // controller.sendMessage(
-                    //     controller.inputMessageController.text, chatId);
+                    controller.sendMessage(
+                        controller.inputMessageController.text, chatId);
                   },
                 ),
               );

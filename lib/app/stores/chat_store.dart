@@ -8,105 +8,118 @@ class ChatStore = _ChatStoreBase with _$ChatStore;
 
 abstract class _ChatStoreBase with Store {
   @observable
-  ObservableList<Chat> openChats = [
-    Chat(
-      id: "ChatId",
-      atendente: "Atendente_01",
-      atendenteId: "AtendenteId",
-      motorista: "Motorista_01",
-      motoristaId: "MotoristaId",
-      unidade: "Unidade_01",
-      concluido: false,
-      mensagens: [
-        Message(
-          id: "MensagemId",
-          type: "text",
-          content: "OPEN CHATS",
-          sender: "MotoristaId",
-          receiver: "ChatIdReceiver",
-          isRead: false,
-          isSent: false,
-          time: DateTime.parse("2020-02-28T11:59:44.975Z"),
-        ),
-      ],
-      datacriacao: DateTime.parse("2020-02-28T11:59:44.975Z"),
-    )
-  ].asObservable();
-
-  ObservableList<Chat> attendedChats = [
-    Chat(
-      id: "ChatId",
-      atendente: "Atendente_01",
-      atendenteId: "AtendenteId",
-      motorista: "Motorista_01",
-      motoristaId: "MotoristaId",
-      unidade: "Unidade_01",
-      concluido: false,
-      mensagens: [
-        Message(
-          id: "MensagemId",
-          type: "text",
-          content: "OPEN ATTENDED",
-          sender: "MotoristaId",
-          receiver: "ChatIdReceiver",
-          isRead: false,
-          isSent: false,
-          time: DateTime.parse("2020-02-28T11:59:44.975Z"),
-        ),
-      ],
-      datacriacao: DateTime.parse("2020-02-28T11:59:44.975Z"),
-    )
-  ].asObservable();
+  ObservableList<Chat> _openChats = ObservableList<Chat>();
 
   @computed
-  List<Chat> get chatsOpen => openChats;
-
-  @computed
-  List<Chat> get chatsAttended => attendedChats;
+  List<Chat> get chatsOpen => _openChats;
 
   @action
-  addOpenChat(Chat value) {
-    openChats.insert(0, value);
-  }
-
-  @action
-  addAttendedChat(Chat value) {
-    attendedChats.insert(0, value);
-  }
-
-  @action
-  removeOpenChat(Chat value) {
-    openChats.removeWhere((item) => item == value);
-  }
-
-  @action
-  removeAttendedChat(Chat value) {
-    attendedChats.removeWhere((item) => item == value);
-  }
+  Future setOpenChat(List<Chat> value) async =>
+      _openChats = value.asObservable();
 
   @action
   openChatToAttendedChat(Chat value) {
-    Chat chat = openChats.firstWhere((item) => item == value);
+    var chat = getOpenChat(value);
 
     addAttendedChat(chat);
     removeOpenChat(chat);
   }
 
   @action
-  removeOpenChatId(String value) {
-    openChats.removeWhere((item) => item.id == value);
-  }
-
-  @action
-  removeAttendedChatId(String value) {
-    attendedChats.removeWhere((item) => item.id == value);
-  }
-
-  @action
-  openChatToAttendedChatId(String value) {
-    Chat chat = openChats.firstWhere((item) => item.id == value);
+  openChatToAttendedChatById(String value) {
+    Chat chat = getChatOpenById(value);
 
     addAttendedChat(chat);
     removeOpenChat(chat);
   }
+
+  @action
+  addOpenChat(Chat value) => _openChats.insert(0, value);
+
+  @action
+  removeOpenChat(Chat value) => _openChats.removeWhere((item) => item == value);
+
+  @action
+  removeOpenChatById(String value) =>
+      _openChats.removeWhere((item) => item.id == value);
+
+  @action
+  Chat getOpenChat(Chat value) =>
+      _openChats.firstWhere((chat) => chat == value);
+
+  @action
+  Chat getChatOpenById(String value) =>
+      _openChats.firstWhere((chat) => chat.id == value);
+
+  @action
+  addMessageOpen(Message message) {
+    var chat = getChatOpenById(message.receiver);
+    removeOpenChat(chat);
+    chat.mensagens.insert(0, message);
+    addOpenChat(chat);
+  }
+
+  // ? ------------------------- SignalR Functions -------------------------
+  @action
+  receiveMessageOpen(List<Object> data) {
+    final receiveMessage = Message.fromJson(data[0]);
+
+    addMessageOpen(receiveMessage);
+  }
+
+  @action
+  receiveNewChatOpen(List<Object> data) {
+    final receiveChat = Chat.fromJson(data[0]);
+
+    addOpenChat(receiveChat);
+  }
+  // ? ----------------------- End SignalR Functions -----------------------
+
+  // !----------------------------------------------------------------------
+  @observable
+  ObservableList<Chat> _attendedChats = ObservableList<Chat>();
+
+  @computed
+  List<Chat> get chatsAttended => _attendedChats.asObservable();
+
+  @action
+  Future setAttendedChat(List<Chat> value) async =>
+      _attendedChats = value.asObservable();
+
+  @action
+  addAttendedChat(Chat value) => _attendedChats.insert(0, value);
+
+  @action
+  removeAttendedChat(Chat value) =>
+      _attendedChats.removeWhere((item) => item == value);
+
+  @action
+  removeAttendedChatId(String value) =>
+      _attendedChats.removeWhere((item) => item.id == value);
+
+  @action
+  Chat getChatAttended(Chat value) =>
+      _attendedChats.firstWhere((chat) => chat == value);
+
+  @action
+  Chat getChatAttendedById(String value) =>
+      _attendedChats.firstWhere((chat) => chat.id == value);
+
+  @action
+  addMessageAttended(Message message) {
+    var chat = getChatAttendedById(message.receiver);
+    removeAttendedChat(chat);
+    chat.mensagens.insert(0, message);
+    addAttendedChat(chat);
+  }
+
+  // ? ------------------------- SignalR Functions -------------------------
+  @action
+  receiveMessageAttendance(List<Object> data) {
+    final receiveMessage = Message.fromJson(data[0]);
+
+    addMessageAttended(receiveMessage);
+  }
+  // ? ----------------------- End SignalR Functions -----------------------
+
 }

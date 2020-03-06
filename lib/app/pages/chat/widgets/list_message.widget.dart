@@ -14,13 +14,6 @@ class ListMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Modular.get<ChatController>();
 
-    print(">> List----");
-    print(controller.listChats[0].mensagens[0].content);
-
-    controller.listChats[0].mensagens[0].content = "CLOSE CHATS";
-    print(controller.listChats[0].mensagens[0].content);
-    print(">> List----");
-
     return Flexible(
       flex: 1,
       child: Observer(
@@ -49,7 +42,7 @@ class ListMessage extends StatelessWidget {
               return ItemMessage(
                 content: item.content,
                 timestamp: item.time,
-                isYou: Consts.userAtendente.id == item.sender,
+                isYou: Consts.user.id == item.sender,
                 isRead: item.isRead,
                 isSent: item.isSent,
                 fontSize: 16.0,

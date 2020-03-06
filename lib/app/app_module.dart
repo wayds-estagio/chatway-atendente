@@ -18,8 +18,7 @@ class AppModule extends MainModule {
         Router(Modular.initialRoute,
             child: (_, args) => SplashPage(),
             transition: TransitionType.rightToLeft),
-        Router("/home",
-            module: HomeModule(), transition: TransitionType.downToUp),
+        Router("/home", module: HomeModule()),
       ];
 
   @override

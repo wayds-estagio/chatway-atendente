@@ -1,5 +1,7 @@
 import 'package:chatway_atendente/app/modules/chats_attended/chats_attended_page.dart';
 import 'package:chatway_atendente/app/modules/chats_open/chats_open_page.dart';
+import 'package:chatway_atendente/app/modules/home/widgets/appbar_home.widget.dart';
+import 'package:chatway_atendente/app/stores/chat_store.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -16,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends ModularState<HomePage, HomeController>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  ChatStore store = Modular.get<ChatStore>();
 
   @override
   void initState() {
@@ -27,42 +30,7 @@ class _HomePageState extends ModularState<HomePage, HomeController>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              "Chat ",
-              style: TextStyle(
-                fontFamily: "Helvetica",
-                fontSize: 24,
-              ),
-            ),
-            Image.asset(
-              'assets/images/logo-way-2.png',
-              fit: BoxFit.contain,
-              height: 24,
-            ),
-          ],
-        ),
-        bottom: TabBar(
-          indicatorWeight: 4,
-          labelStyle: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-          controller: _tabController,
-          indicatorColor: Colors.white,
-          tabs: <Widget>[
-            Tab(
-              text: "Atendidos",
-            ),
-            Tab(
-              text: "Em aberto",
-            ),
-          ],
-        ),
-      ),
+      appBar: AppBarHome(tabController: _tabController),
       body: TabBarView(
         dragStartBehavior: DragStartBehavior.down,
         controller: _tabController,
