@@ -1,3 +1,4 @@
+import 'package:chatway_atendente/app/stores/chat_store.dart';
 import 'package:chatway_atendente/app/pages/splash/splash_controller.dart';
 import 'package:chatway_atendente/app/pages/splash/splash_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -7,6 +8,7 @@ import 'package:chatway_atendente/app/app_widget.dart';
 class AppModule extends MainModule {
   @override
   List<Bind> get binds => [
+        Bind((i) => ChatStore()),
         Bind((i) => SplashController()),
       ];
 
